@@ -1,3 +1,7 @@
+import { auth, db } from './firebase-config.js';
+import { doc, setDoc, getDoc, updateDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+
 document.getElementById('search-button').addEventListener('click', function() {
     const query = document.getElementById('food-input').value;
     if (query) {
