@@ -168,14 +168,21 @@ function displayResults(results) {
     });
 }
 
-// Add to Favorites Function
-function addToFavorites(recipeId) {
-    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    if (!favorites.includes(recipeId)) {
-        favorites.push(recipeId);
-        localStorage.setItem('favorites', JSON.stringify(favorites));
-        alert('Recipe added to favorites!');
+function saveFavorite(recipeId, recipeData) {
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      const userFavoritesRef = doc(db, "favorites", user.uid);
+      try {
+        await setDoc(userFavoritesRef, {
+          recipes: arrayUnion(recipeData)
+        }, { merge: true });
+
+        alert("Recipe added to favorites!");
+      } catch (error) {
+        console.error("Error saving favorite:", error);
+      }
     } else {
-        alert('Recipe is already in favorites!');
+      alert("You must be logged in to save favorites.");
     }
+  });
 }
