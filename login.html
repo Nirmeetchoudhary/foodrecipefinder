@@ -88,39 +88,46 @@
     <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
   </div>
 
-  <!-- Firebase SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+ <!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyCS0Y56xVN0HyXdsSTCwIyIoXEQpboHRUc",
-      authDomain: "foodrecipe-bdd97.firebaseapp.com",
-      projectId: "foodrecipe-bdd97",
-      storageBucket: "foodrecipe-bdd97.appspot.com",
-      messagingSenderId: "500578925809",
-      appId: "1:500578925809:web:fb87f96565758982e2fd50"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyCS0Y56xVN0HyXdsSTCwIyIoXEQpboHRUc",
+    authDomain: "foodrecipe-bdd97.firebaseapp.com",
+    projectId: "foodrecipe-bdd97",
+    storageBucket: "foodrecipe-bdd97.appspot.com",
+    messagingSenderId: "500578925809",
+    appId: "1:500578925809:web:fb87f96565758982e2fd50"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
-    document.getElementById("login-form").addEventListener("submit", function (event) {
-      event.preventDefault();
+  document.getElementById("login-form").addEventListener("submit", function (event) {
+    event.preventDefault();
 
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
 
-      signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          alert("Login successful!");
-          window.location.href = "index.html";  // Redirect to index.html after successful login
-        })
-        .catch((error) => {
-          alert("Login failed: " + error.message);
-        });
-    });
-  </script>
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        alert("Login successful!");
+        window.location.href = "index.html";  // Redirect to index.html after successful login
+      })
+      .catch((error) => {
+        let errorMessage = "Login failed. Please try again.";
+        if (error.code === 'auth/user-not-found') {
+          errorMessage = "No user found with this email.";
+        } else if (error.code === 'auth/wrong-password') {
+          errorMessage = "Incorrect password.";
+        }
+        alert(errorMessage);
+      });
+  });
+</script>
+
 
 </body>
 </html>
