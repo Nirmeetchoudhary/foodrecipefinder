@@ -65,30 +65,35 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
+    // Check authentication state
     onAuthStateChanged(auth, (user) => {
       if (user) {
+        // If logged in, display the user's email
         document.getElementById("user-welcome").innerText = "Welcome, " + user.email;
       } else {
-        window.location.href = "signup.html"; // redirect if not logged in
+        // If not logged in, redirect to signup
+        window.location.href = "signup.html";
       }
     });
 
+    // Logout functionality
     document.getElementById("logout-btn").addEventListener("click", async () => {
       await signOut(auth);
       alert("You have been logged out.");
       window.location.href = "signup.html";
     });
   </script>
+
+  <!-- Firebase Auth Check for Unauthenticated Users -->
   <script type="module">
-  import { auth } from './firebase-config.js';
-  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+    const auth = getAuth();
 
-  onAuthStateChanged(auth, (user) => {
-    if (!user) {
-      window.location.href = "signup.html";
-    }
-  });
-</script>
-
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "signup.html"; // Redirect to signup if not logged in
+      }
+    });
+  </script>
 </body>
 </html>
