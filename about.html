@@ -35,27 +35,16 @@
   </div>
 
   <!-- Firebase Auth Script -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+ <script type="module">
+  import { auth } from './firebase-config.js';
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyCS0Y56xVN0HyXdsSTCwIyIoXEQpboHRUc",
-      authDomain: "foodrecipe-bdd97.firebaseapp.com",
-      projectId: "foodrecipe-bdd97",
-      storageBucket: "foodrecipe-bdd97.appspot.com",
-      messagingSenderId: "500578925809",
-      appId: "1:500578925809:web:fb87f96565758982e2fd50"
-    };
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      window.location.href = "signup.html";
+    }
+  });
+</script>
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = "signup.html";
-      }
-    });
-  </script>
 </body>
 </html>
